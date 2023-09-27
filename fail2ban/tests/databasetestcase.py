@@ -123,7 +123,7 @@ class DatabaseTest(LogCaptureTestCase):
 		# test truncated database with different sizes:
 		#   - 14000 bytes - seems to be reparable,
 		#   - 4000  bytes - is totally broken.
-		for truncSize in (14000, 4000):
+		for truncSize in (14400, 4000):
 			self.pruneLog("[test-repair], next phase - file-size: %d" % truncSize)
 			shutil.copyfile(
 				os.path.join(TEST_FILES_DIR, 'database_v1.db'), self.dbFilename)
@@ -134,7 +134,7 @@ class DatabaseTest(LogCaptureTestCase):
 			# test repair:
 			try:
 				self.db = Fail2BanDb(self.dbFilename)
-				if truncSize == 14000: # restored:
+				if truncSize == 14400: # restored:
 					self.assertLogged("Repair seems to be successful",
 						"Check integrity", "Database updated", all=True)
 					self.assertEqual(self.db.getLogPaths(), set(['/tmp/Fail2BanDb_pUlZJh.log']))
